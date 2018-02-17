@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context="com.example.newapp.BirdBefore"
+    tools:deviceIds="wear_square"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <ImageButton
+        android:id="@+id/imageButton2"
+        android:layout_width="170dp"
+        android:layout_height="50dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="130dp"
+        android:background="@drawable/button_record"
+        android:onClick="startRecording"
+        app:srcCompat="@drawable/button_record" />
+
+    <ImageView
+        android:id="@+id/feather"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="77.5dp"
+        android:layout_marginTop="10dp"
+        app:srcCompat="@drawable/feather1" />
+
+    <ImageView
+        android:id="@+id/bird"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="40dp"
+        android:background="@drawable/egg" />
+
+    <ImageView
+        android:id="@+id/accessory"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/feather"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="14dp"
+        app:srcCompat="@drawable/acc1" />
+</RelativeLayout>

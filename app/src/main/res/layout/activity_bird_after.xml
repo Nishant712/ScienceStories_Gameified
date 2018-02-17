@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@drawable/background"
+    tools:context="com.example.newapp.BirdAfter"
+    tools:deviceIds="wear_square"
+    tools:layout_editor_absoluteY="81dp"
+    tools:layout_editor_absoluteX="0dp">
+
+    <Button
+        android:padding="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:text=""
+        android:textAllCaps="false"
+        android:id="@+id/uploadRecordingButton"
+        android:onClick="changePrompt"
+        android:background="@drawable/prompt_select"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="7.5dp" />
+
+    <ImageView
+        android:id="@+id/feather"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginLeft="77.5dp"
+        android:layout_marginTop="25dp"
+        app:srcCompat="@drawable/feather1" />
+
+
+    <ImageView
+        android:id="@+id/bird"
+        android:layout_width="80dp"
+        android:layout_height="100dp"
+        android:layout_marginLeft="65dp"
+        android:layout_marginTop="55dp"
+        android:background="@drawable/egg" />
+
+    <ImageView
+        android:id="@+id/accessory"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_below="@+id/feather"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="14dp"
+        app:srcCompat="@drawable/acc1" />
+
+</RelativeLayout>

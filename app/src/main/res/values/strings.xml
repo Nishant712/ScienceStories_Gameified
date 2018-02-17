@@ -1,0 +1,31 @@
+<resources>
+    <string name="app_name">ScienceStories</string>
+    <string name="hello_round">Hello Round World!</string>
+    <string name="hello_square">Hello Square World!</string>
+    <string name="first_prompt">What is happening now?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="second_prompt">What is happening now?</string>
+    <string name="button_text">Let\'s do this</string>
+    <string name="title_activity_message_record">MessageRecord</string>
+    <string name="title_activity_message_prompt_end">MessagePromptEnd</string>
+    <string name="question_one">1. How do you feel about this event?</string>
+    <string name="question_two">2. How satisfied are you with your life as a whole?</string>
+    <string name="discard_text">DISCARD</string>
+    <string name="title_activity_message_prompt_end_two">MessagePromptEndTwo</string>
+    <string name="prompt1">What around you may be related to food chains?</string>
+    <string name="prompt2">How can what you are doing relate to food chains?</string>
+    <string name="prompt3">Do something related to food chains. Tell me about it.</string>
+    <string name="title_activity_bird_before">BirdBefore</string>
+    <!--
+    This string is used for square devices and overridden by hello_world in
+    values-round/strings.xml for round devices.
+    -->
+    <string name="hello_world">Hello Square World!</string>
+    <string name="title_activity_recording_confirmation">RecordingConfirmation</string>
+    <string name="title_activity_bird_after">BirdAfter</string>
+    <string name="title_activity_prompt_change">PromptChange</string>
+    <string name="title_activity_prompt">Prompt</string>
+    <string name="foodchain">Food chain, Food web, Producers, Consumers, Decomposers, Predator, Prey, Herbivore, Carnivore, Omnivore</string>
+</resources>

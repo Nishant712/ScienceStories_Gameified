@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/black"
+    tools:context="com.example.newapp.MessageRecord"
+    tools:deviceIds="wear_square">
+
+    <!-- ASK TO UPLOAD, ALL INVISIBLE INITIALLY -->
+
+    <ImageView
+        android:id="@+id/messageRecordBackground"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#DC143C"/>
+
+    <!-- <ImageView
+        android:id="@+id/opacityFilter"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:src="#88000000" /> -->
+
+    <Button
+        android:padding="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:text=""
+        android:textAllCaps="false"
+        android:id="@+id/discardRecordingButton"
+        android:background="@drawable/record_cancel"
+        android:layout_marginTop="130dp"
+        android:layout_marginLeft="7.5dp"
+        android:visibility="invisible" />
+
+    <Button
+        android:padding="10dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:text=""
+        android:textAllCaps="false"
+        android:id="@+id/uploadRecordingButton"
+        android:onClick="uploadRecording"
+        android:background="@drawable/record_save"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="130dp"
+        android:layout_marginRight="7.5dp"
+        android:visibility="invisible" />
+
+    <!-- INITIAL VIEW -->
+
+    <ImageButton
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:id="@+id/recordButton"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="55dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/recordText"
+        android:textColor="@color/red"
+        android:textStyle="bold"
+        android:layout_below="@+id/recordButton"
+        android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=""
+        android:id="@+id/centerLevel"
+        android:textColor="@color/white"
+        android:textStyle="bold"
+        android:layout_marginTop="90dp"
+        android:layout_centerHorizontal="true" />
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="18dp"
+        android:textStyle="bold"
+        android:format="%s"/>
+
+</RelativeLayout>
