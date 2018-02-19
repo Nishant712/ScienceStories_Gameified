@@ -24,14 +24,14 @@ There are three different types of prompts for this application:
 
 - - - -
 ### Gamification of the application - Change in bird according to the number of recordings in each prompt.
-To make the application more engaging and intuitive, there is a bird which grows as more recordings are done. As there are three types of prompts, the bird changes in a different way for each prompt.
+To make the application more engaging and intuitive, the application behaves like a game in which there is a bird that grows as more and more recordings are done. As there are three types of prompts, the bird changes in a different way for each prompt.
 
 - - - -
 ### Class Initialization
 The application loads initially into the MainActivity class, displaying the vocabulary of the science lesson the user is learning.
 - - - -
 ### Recording Notes
-To compensate Android Wear from being unable to record using the general Android recording class, the MessageRecord class contains code to record an audio stream into a .PCM file. This .PCM file is then given a header, translated into a .WAV file, and the .PCM is then deleted. The application then uses the .WAV file for audio playback in the ChapterCollection class.
+To compensate Android Wear from being unable to record using the general Android recording class, the MessageRecord class contains code to record an audio stream into a .PCM file. This .PCM file is then given a header, translated into a .WAV file, and the .PCM is then deleted. The application then uses the .WAV file for audio playback immediately after the recording is done.
 
 - - - -
 ### Other Classes
