@@ -96,6 +96,20 @@ public class Prompt extends WearableActivity {
 
                 if((isSame.equals("NO")) && (previousPrompt != 0)) {
                     randomNum = getRandom(previousPrompt);
+                    Log.d("If. Prompt number is ", Integer.toString(randomNum));
+                    if (firstLine != null && !firstLine.isEmpty()) {
+                        firstLine = firstLine + "," + randomNum;
+                    }
+                    else {
+                        firstLine = Integer.toString(randomNum);
+                    }
+
+                    numOccurrences[randomNum - 1] = numOccurrences[randomNum - 1] + 1;
+                    for (int j = 0; j < numOccurrences.length; j++) {
+                        temp = temp + numOccurrences[j] + ",";
+                    }
+                    temp = temp.substring(0, temp.length() - 1);temp = temp.substring(0, temp.length() - 1);
+
                 }
                 else if (firstLine != null && !firstLine.isEmpty()) {
                     Log.d("firstLine is", firstLine);
@@ -231,7 +245,7 @@ public class Prompt extends WearableActivity {
         Intent intent;
         String confirm;
         confirm = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
-        recording_details = recording_details + ",Prompt confirmed" + confirm;
+        recording_details = recording_details + ",Prompt selected at " + confirm;
         String message = recording_details+";"+firstLine+";"+temp;
 
         intent = new Intent(this, BirdBefore.class);

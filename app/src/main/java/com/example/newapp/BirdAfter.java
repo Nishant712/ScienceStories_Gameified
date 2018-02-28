@@ -71,6 +71,11 @@ public class BirdAfter extends WearableActivity {
         int activityLevel = numOccurrences[1]/2;
         int experimentLevel = numOccurrences[2]/2;
 
+        Log.d("birdLevel is", Integer.toString(birdLevel));
+        Log.d("observationLevel is", Integer.toString(observationLevel));
+        Log.d("activityLevel is", Integer.toString(activityLevel));
+        Log.d("experimentLevel is", Integer.toString(experimentLevel));
+
         if(birdLevel == 0)
             birdImage.setBackground(getResources().getDrawable(R.drawable.egg));
         else if(birdLevel >= 5) {
