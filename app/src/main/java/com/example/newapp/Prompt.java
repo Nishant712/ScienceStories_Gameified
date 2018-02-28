@@ -30,10 +30,11 @@ public class Prompt extends WearableActivity {
 
     private TextView mTextView;
     public static Context mContext;
-    private String appEntryTime;
+    private String recording_details;
     public static String EXTRA_MESSAGE = "com.example.newapp.MESSAGE";
     private String isSame = "";
     private String firstLine, lastLine, temp = "";
+    private int randomNum = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,23 +43,32 @@ public class Prompt extends WearableActivity {
 
         mTextView = (TextView) findViewById(R.id.text);
 
+        File directory = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Memories");
+        directory.mkdirs();
+
         String[] arr_msg;
         String msg;
+        int previousPrompt = 0;
         Intent intent = getIntent();
         msg = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
         arr_msg = msg.split(",");
         if(arr_msg.length == 2) {
             isSame = arr_msg[1];
-            appEntryTime = arr_msg[0];
+            recording_details = arr_msg[0];
         }
-        else {
+        else if(arr_msg.length == 1){
             isSame = "NO";
-            appEntryTime = arr_msg[0];
+            recording_details = arr_msg[0];
+        }
+        else if(arr_msg.length == 3){
+            isSame = "NO";
+            recording_details = arr_msg[0];
+            previousPrompt = Integer.parseInt(arr_msg[2]);
         }
 
 
 
-        int randomNum = 0;
+
         int last = 0;
 
         String[] arr, previous;
@@ -84,7 +94,10 @@ public class Prompt extends WearableActivity {
 
                 }
 
-                if (firstLine != null && !firstLine.isEmpty()) {
+                if((isSame.equals("NO")) && (previousPrompt != 0)) {
+                    randomNum = getRandom(previousPrompt);
+                }
+                else if (firstLine != null && !firstLine.isEmpty()) {
                     Log.d("firstLine is", firstLine);
                     previous = getPrevious();
                     if (previous != null) {
@@ -216,18 +229,38 @@ public class Prompt extends WearableActivity {
 
     public void initialBird(View view) throws IOException {
         Intent intent;
-        String message = appEntryTime;
+        String confirm;
+        confirm = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
+        recording_details = recording_details + ",Prompt confirmed" + confirm;
+        String message = recording_details+";"+firstLine+";"+temp;
+
         intent = new Intent(this, BirdBefore.class);
         intent.putExtra(EXTRA_MESSAGE, message);
-        writeToOne(firstLine, temp);
+        //writeToOne(firstLine, temp);
         startActivity(intent);
         this.finish();
     }
 
     public void anotherPrompt(View view) throws IOException {
         Intent intent;
-        String message = "NO";
-        intent = new Intent(this, MainActivity.class);
+        String decline;
+        decline = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
+        String message = recording_details+",NO,"+randomNum;
+        recording_details = recording_details + ",Prompt changed at " + decline + ",,,,,,,,";
+        try {
+            //open file for writing
+            File file = new File("/sdcard/Memories/recording_details.txt");
+            FileOutputStream fileinput = new FileOutputStream(file, true);
+            PrintStream printstream = new PrintStream(fileinput);
+            printstream.print(recording_details+"\n");
+            fileinput.close();
+
+
+        } catch (java.io.IOException e) {
+            //if caught
+
+        }
+        intent = new Intent(this, Prompt.class);
         intent.putExtra(EXTRA_MESSAGE, message);
         //writeToOne(firstLine, temp);
         startActivity(intent);
@@ -240,7 +273,7 @@ public class Prompt extends WearableActivity {
         if(Memories.isDirectory()) {
             File[] foundFiles = Memories.listFiles(new FilenameFilter() {
                 public boolean accept(File Memories, String name) {
-                    return name.contains("_recording_");
+                    return name.endsWith(".wav");
                 }
             });
             numberOfRecordings = foundFiles.length;

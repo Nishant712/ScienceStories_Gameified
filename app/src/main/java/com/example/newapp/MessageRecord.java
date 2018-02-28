@@ -23,12 +23,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Chronometer;
 
+import java.io.BufferedWriter;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintStream;
@@ -55,6 +57,9 @@ public class MessageRecord extends Activity {
     private boolean isRecordingButtonPressed = false;
     private int numberOfRecordings = Prompt.numRecordings() + 1;
     private String recording_details = "";
+    private String previous_recording_details = "";
+    private String firstLine = "";
+    private String secondLine = "";
     private String startTime;
     private String endTime;
     private int category;
@@ -79,7 +84,12 @@ public class MessageRecord extends Activity {
         Log.d("Number of Recordings",String.format("number of recordings = %d", numberOfRecordings));
 
         Intent intent = getIntent();
-        recording_details = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String temp = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String[] stringArr = temp.split(";");
+        previous_recording_details = stringArr[0];
+        recording_details = stringArr[0];
+        firstLine = stringArr[1];
+        secondLine = stringArr[2];
         //Log.d("Recording Details",recording_details);
 
         final ImageButton playButton = (ImageButton) findViewById(R.id.recordButton);
@@ -100,14 +110,11 @@ public class MessageRecord extends Activity {
 
 
         final String currentRecordings = "Recording";
-        String[] currentPrompt;
-        try {
-            currentPrompt = getPrevious();
-            category = Integer.parseInt(currentPrompt[currentPrompt.length-1]);
+        String[] prompts;
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        prompts = firstLine.split(",");
+        category = Integer.parseInt(prompts[prompts.length-1]);
+
         Log.d("Current category ",Integer.toString(category));
         textView.setTextColor(Color.parseColor("#FFFFFF"));
         //textView.setText(currentRecordings);
@@ -216,7 +223,7 @@ public class MessageRecord extends Activity {
                     discardButton.setEnabled(false);
                     button.setEnabled(true);
 
-                    recording_details = recording_details + ",Declined at " + declineTime + ",,";
+                    recording_details = recording_details + ",Declined at " + declineTime + ",,,";
                     deleteRecording();
                 }
                 return true;
@@ -270,7 +277,7 @@ public class MessageRecord extends Activity {
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Memories" + File.separator + category + "_" + "recording_" + numberOfRecordings;
         //String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Memories" + File.separator + category + "_" + "recording_" + numberOfRecordings;
 
-
+        String message = previous_recording_details+";"+firstLine+";"+secondLine;
         File dir = new File("/sdcard/Memories");
         try{
             if(dir.mkdir()) {
@@ -284,9 +291,9 @@ public class MessageRecord extends Activity {
         File newWavFile = new File (filePath + ".wav");
         File oldPcmFile = new File (filePath + ".pcm");
         newWavFile.delete();
-        oldPcmFile.delete();
+        //oldPcmFile.delete();
         try {
-            File file = new File("/sdcard/Memories/response_recordings.txt");
+            File file = new File("/sdcard/Memories/recording_details.txt");
             FileOutputStream fileinput = new FileOutputStream(file, true);
             PrintStream printstream = new PrintStream(fileinput);
             printstream.print(recording_details+"\n");
@@ -299,6 +306,7 @@ public class MessageRecord extends Activity {
         }
         Intent intent;
         intent = new Intent(this, BirdBefore.class);
+        intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
         this.finish();
     }
@@ -498,12 +506,67 @@ public class MessageRecord extends Activity {
         String filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Memories" + File.separator + category + "_" + "recording_" + numberOfRecordings;
         File oldPcmFile = new File (filePath + ".pcm");
         oldPcmFile.delete();
+        try {
+            writeToOne(firstLine,secondLine);
+        } catch (Exception e){
+            System.out.println(e);
+        }
         Intent intent = new Intent(this, RecordingConfirmation.class);
         ActivityOptions options = ActivityOptions.makeScaleUpAnimation(v, 0,
                 0, v.getWidth(), v.getHeight());
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent, options.toBundle());
         finish();
+    }
+
+    public static void writeToOne(String firstLine, String secondLine) throws IOException {
+        String FILENAME = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator + "Memories" + File.separator + "pastSequence.txt";
+        BufferedWriter bw = null;
+        FileWriter fw = null;
+        File f = new File(Environment.getExternalStorageDirectory().getAbsolutePath()+ File.separator + "Memories" + File.separator + "pastSequence.txt");
+        if(f.exists() && !f.isDirectory()) {
+            try {
+                //open file for writing
+                File file = new File("/sdcard/Memories/pastSequence.txt");
+                FileOutputStream fileinput = new FileOutputStream(file, false);
+                PrintStream printstream = new PrintStream(fileinput);
+                printstream.print(firstLine+"\n");
+                printstream.print(secondLine+"\n");
+                fileinput.close();
+
+
+            } catch (java.io.IOException e) {
+                //if caught
+
+            }
+        }
+        else {
+            File dir = new File("/sdcard/Memories");
+            try{
+                if(dir.mkdir()) {
+                    Log.d("Directory created: ", "Success");
+                } else {
+                    Log.d("Directory not created: ", "Failure");
+                }
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+            try {
+                //open file for writing
+                File file = new File("/sdcard/Memories/pastSequence.txt");
+                FileOutputStream fileinput = new FileOutputStream(file, false);
+                PrintStream printstream = new PrintStream(fileinput);
+                printstream.print(firstLine+"\n");
+                printstream.print(secondLine+"\n");
+                fileinput.close();
+
+
+            } catch (java.io.IOException e) {
+                //if caught
+
+            }
+        }
+
     }
 
 

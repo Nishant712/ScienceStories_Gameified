@@ -6,6 +6,10 @@ import android.support.wearable.activity.WearableActivity;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class RecordingConfirmation extends WearableActivity {
 
     private TextView mTextView;
@@ -27,7 +31,9 @@ public class RecordingConfirmation extends WearableActivity {
 
     public void updatedBird(View v) {
         Intent intent = new Intent(this, BirdAfter.class);
-        String message = recording_details;
+        String confirmTime = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
+        String message = recording_details + "," + confirmTime;
+        //String message = recording_details;
         intent.putExtra(EXTRA_MESSAGE, message);
         startActivity(intent);
         finish();

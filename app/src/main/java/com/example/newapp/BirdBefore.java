@@ -15,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class BirdBefore extends WearableActivity {
 
@@ -23,6 +26,8 @@ public class BirdBefore extends WearableActivity {
     public static String EXTRA_MESSAGE = "com.example.newapp.MESSAGE";
     public static int numberOfRecordings;
     private String lastLine;
+    private String firstLine = "";
+    private String secondLine = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +37,16 @@ public class BirdBefore extends WearableActivity {
         mTextView = (TextView) findViewById(R.id.text);
 
         Intent intent = getIntent();
-        recording_details = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String temp = intent.getStringExtra(MainActivity.EXTRA_MESSAGE);
+        String[] stringArr = temp.split(";");
+        recording_details = stringArr[0];
+        firstLine = stringArr[1];
+        if(stringArr.length > 2) {
+            secondLine = stringArr[2];
+        }
+
+        String[] prompts = firstLine.split(",");
+        int last;
 
         //setContentView(R.layout.rect_activity_bird_before);
 
@@ -45,26 +59,24 @@ public class BirdBefore extends WearableActivity {
 
 
         String[] arr;
-        int last;
+
         int[] numOccurrences = new int[3];
 
-        try {
-            lastLine = getLastLine();
+
+        lastLine = secondLine;
 
 
-            if(lastLine != null && !lastLine.isEmpty()) {
-                Log.d("lastLine is", lastLine);
-                arr = lastLine.split(",");
-                for(int i=0;i < arr.length;i++){
-                    Log.d("arr is", arr[i]);
-                    numOccurrences[i] = Integer.parseInt(arr[i]);
-                }
+        if(lastLine != null && !lastLine.isEmpty()) {
+            Log.d("lastLine is", lastLine);
+            arr = lastLine.split(",");
+            for(int i=0;i < arr.length;i++){
+                Log.d("arr is", arr[i]);
+                numOccurrences[i] = Integer.parseInt(arr[i]);
             }
-            last = getLast();
-            numOccurrences[last-1] = numOccurrences[last-1] - 1;
-        } catch (IOException e) {
-            e.printStackTrace();
         }
+        last = Integer.parseInt(prompts[prompts.length-1]);
+        numOccurrences[last-1] = numOccurrences[last-1] - 1;
+
 
 
 
@@ -228,7 +240,10 @@ public class BirdBefore extends WearableActivity {
 
     public void startRecording(View view) throws IOException {
         Intent intent;
-        String message = recording_details;
+        String record;
+        record = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
+        recording_details = recording_details + "," + record;
+        String message = recording_details+";"+firstLine+";"+secondLine;
         intent = new Intent(this, MessageRecord.class);
         intent.putExtra(EXTRA_MESSAGE, message);
         //writeToOne(firstLine, temp);
@@ -242,7 +257,7 @@ public class BirdBefore extends WearableActivity {
         if(Memories.isDirectory()) {
             File[] foundFiles = Memories.listFiles(new FilenameFilter() {
                 public boolean accept(File Memories, String name) {
-                    return name.contains("_recording_");
+                    return name.endsWith(".wav");
                 }
             });
             numberOfRecordings = foundFiles.length;

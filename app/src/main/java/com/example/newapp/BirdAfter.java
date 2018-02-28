@@ -15,6 +15,9 @@ import java.io.FileInputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public class BirdAfter extends WearableActivity {
 
@@ -223,7 +226,9 @@ public class BirdAfter extends WearableActivity {
 
     public void changePrompt(View view) throws IOException {
         Intent intent;
-        String message = recording_details;
+        String confirmTime = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss", Locale.US).format(new Date());
+        String message = recording_details + "," + confirmTime;
+        //String message = recording_details;
         intent = new Intent(this, PromptChange.class);
         intent.putExtra(EXTRA_MESSAGE, message);
         //writeToOne(firstLine, temp);
@@ -237,7 +242,7 @@ public class BirdAfter extends WearableActivity {
         if(Memories.isDirectory()) {
             File[] foundFiles = Memories.listFiles(new FilenameFilter() {
                 public boolean accept(File Memories, String name) {
-                    return name.contains("_recording_");
+                    return name.endsWith(".wav");
                 }
             });
             numberOfRecordings = foundFiles.length;
